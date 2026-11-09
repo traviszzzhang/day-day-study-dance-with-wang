@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-09T14:44:37.855723+00:00",
+  "videos": {
+    "v00": {
+      "count": 1,
+      "parents": [
+        {
+          "id": "DC_kwDOVoMm084BKXNb",
+          "upvoteCount": 1,
+          "viewerHasUpvoted": false,
+          "viewerCanUpvote": false,
+          "viewerDidAuthor": false,
+          "createdAt": "2026-11-09T14:31:03Z",
+          "url": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/1#discussioncomment-19493723",
+          "authorAssociation": "OWNER",
+          "lastEditedAt": null,
+          "deletedAt": null,
+          "isMinimized": false,
+          "bodyHTML": "<p dir=\"auto\">王哥的舞蹈技术日益精湛！</p>",
+          "author": {
+            "avatarUrl": "https://avatars.githubusercontent.com/u/354367681?v=4",
+            "login": "traviszzzhang",
+            "url": "https://github.com/traviszzzhang"
+          },
+          "replyCount": 0,
+          "reactions": {
+            "THUMBS_UP": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "THUMBS_DOWN": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "LAUGH": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HOORAY": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "CONFUSED": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HEART": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "ROCKET": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "EYES": {
+              "count": 0,
+              "viewerHasReacted": false
+            }
+          },
+          "replies": []
+        }
+      ],
+      "discussionURL": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/1"
+    },
+    "v01": {
+      "count": 0,
+      "parents": []
+    },
+    "v02": {
+      "count": 0,
+      "parents": []
+    },
+    "v03": {
+      "count": 0,
+      "parents": []
+    },
+    "v04": {
+      "count": 0,
+      "parents": []
+    },
+    "v05": {
+      "count": 0,
+      "parents": []
+    },
+    "v06": {
+      "count": 0,
+      "parents": []
+    },
+    "v07": {
+      "count": 0,
+      "parents": []
+    },
+    "v08": {
+      "count": 0,
+      "parents": []
+    },
+    "v09": {
+      "count": 0,
+      "parents": []
+    },
+    "v10": {
+      "count": 0,
+      "parents": []
+    },
+    "v11": {
+      "count": 0,
+      "parents": []
+    },
+    "v12": {
+      "count": 0,
+      "parents": []
+    },
+    "v13": {
+      "count": 0,
+      "parents": []
+    },
+    "v14": {
+      "count": 0,
+      "parents": []
+    },
+    "v15": {
+      "count": 0,
+      "parents": []
+    },
+    "v16": {
+      "count": 0,
+      "parents": []
+    },
+    "v17": {
+      "count": 0,
+      "parents": []
+    },
+    "v18": {
+      "count": 0,
+      "parents": []
+    },
+    "v19": {
+      "count": 0,
+      "parents": []
+    },
+    "v20": {
+      "count": 0,
+      "parents": []
+    },
+    "v21": {
+      "count": 0,
+      "parents": []
+    },
+    "v22": {
+      "count": 0,
+      "parents": []
+    },
+    "v23": {
+      "count": 0,
+      "parents": []
+    },
+    "v24": {
+      "count": 0,
+      "parents": []
+    },
+    "v25": {
+      "count": 0,
+      "parents": []
+    },
+    "v26": {
+      "count": 0,
+      "parents": []
+    },
+    "v27": {
+      "count": 0,
+      "parents": []
+    },
+    "v28": {
+      "count": 0,
+      "parents": []
+    },
+    "v29": {
+      "count": 0,
+      "parents": []
+    },
+    "v30": {
+      "count": 0,
+      "parents": []
+    },
+    "v31": {
+      "count": 0,
+      "parents": []
+    }
+  }
+}

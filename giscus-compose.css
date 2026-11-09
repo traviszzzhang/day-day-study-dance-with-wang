@@ -1,0 +1,9 @@
+@import url('https://giscus.app/themes/transparent_dark.css');
+/* Giscus supplies authentication and the real editor; the host renders the reading area. */
+.gsc-reactions,.gsc-header,.gsc-timeline,.gsc-pagination{display:none!important}
+.gsc-main,.gsc-comments{margin:0!important;gap:0!important}
+.gsc-comment-box{margin:0!important;border-radius:12px!important}
+.gsc-comment-box-textarea{min-height:80px!important;max-height:120px!important;font-size:16px!important}
+.gsc-comment-box-bottom{padding:8px!important}
+.gsc-comment-box-markdown-hint{font-size:10px!important}
+.gsc-comment-box-buttons .btn{min-height:40px}
