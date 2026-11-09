@@ -1,0 +1,294 @@
+{
+  "version": 5,
+  "teachers": [
+    {
+      "id": "wang",
+      "name": "王哥",
+      "avatar": "teachers/wang.jpeg"
+    },
+    {
+      "id": "wen",
+      "name": "文哥",
+      "avatar": "teachers/wen.png"
+    },
+    {
+      "id": "xiaowang",
+      "name": "小王哥",
+      "avatar": null
+    },
+    {
+      "id": "xin",
+      "name": "鑫哥",
+      "avatar": null
+    }
+  ],
+  "videos": [
+    {
+      "id": "v00",
+      "title": "王哥的神之八秒",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v01",
+      "title": "大王操控小王：王炸！",
+      "teachers": [
+        "王哥",
+        "小王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v02",
+      "title": "今天爱吃仍子的小王客串",
+      "teachers": [
+        "王哥",
+        "文哥",
+        "小王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v03",
+      "title": "Q3季总宣传视频",
+      "teachers": [
+        "文哥"
+      ],
+      "category": "宣传视频"
+    },
+    {
+      "id": "v04",
+      "title": "你是不是也这样？",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "宣传视频"
+    },
+    {
+      "id": "v05",
+      "title": "卓哥别想了，真的",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v06",
+      "title": "番外，情侣吵架-武术篇",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "日常花絮"
+    },
+    {
+      "id": "v07",
+      "title": "before",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v08",
+      "title": "自信的王哥真的很帅啊 (尖叫",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v09",
+      "title": "居家办公日啊",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v10",
+      "title": "你送的胭脂扣",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v11",
+      "title": "好磕啊好磕",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v12",
+      "title": "回归回归！",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v13",
+      "title": "双子星！",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v14",
+      "title": "王哥为很久没有来授课，自罚100下耳光！",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "日常花絮"
+    },
+    {
+      "id": "v15",
+      "title": "回归宣传海报：",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "宣传视频"
+    },
+    {
+      "id": "v16",
+      "title": "帅否？",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v17",
+      "title": "依旧双子星",
+      "teachers": [
+        "王哥",
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v18",
+      "title": "洋气小王自告奋勇！",
+      "teachers": [
+        "小王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v19",
+      "title": "跳的王哥直喊爸爸",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "日常花絮"
+    },
+    {
+      "id": "v20",
+      "title": "王哥周五早下班，吃饺子了",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "日常花絮"
+    },
+    {
+      "id": "v21",
+      "title": "家文",
+      "teachers": [
+        "文哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v22",
+      "title": "家武",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v23",
+      "title": "今天课程比较多，注意休息",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v24",
+      "title": "地铁钢管舞",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v25",
+      "title": "好累啊好累",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v26",
+      "title": "1111",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v27",
+      "title": "11111",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v28",
+      "title": "调皮的王哥",
+      "teachers": [],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v29",
+      "title": "一滴一滴刺痛我的心",
+      "teachers": [],
+      "category": "舞蹈教学与展示"
+    },
+    {
+      "id": "v30",
+      "title": "今天王哥休息，鑫哥代课",
+      "teachers": [
+        "鑫哥"
+      ],
+      "category": "舞蹈教学与展示",
+      "teachersConfirmed": true
+    },
+    {
+      "id": "v31",
+      "title": "来杯好茶摇一摇",
+      "teachers": [
+        "王哥"
+      ],
+      "category": "舞蹈教学与展示"
+    }
+  ]
+}

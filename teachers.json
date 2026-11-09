@@ -1,0 +1,22 @@
+[
+  {
+    "id": "wang",
+    "name": "王哥",
+    "avatar": "teachers/wang.jpeg"
+  },
+  {
+    "id": "wen",
+    "name": "文哥",
+    "avatar": "teachers/wen.png"
+  },
+  {
+    "id": "xiaowang",
+    "name": "小王哥",
+    "avatar": null
+  },
+  {
+    "id": "xin",
+    "name": "鑫哥",
+    "avatar": null
+  }
+]
