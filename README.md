@@ -24,3 +24,12 @@
 ## 更新内容
 
 更新视频资料时，请同步修改 `index.html` 中的 `originalItems`、`video-library.json` 与 `video-labels.json`。页面不会从浏览器修改服务器文件，无需后端或构建步骤。
+
+## 视频评论
+
+播放器下方使用 Giscus，每个视频按固定编号映射到独立的 GitHub Discussion（`dayday-video-vXX`），重命名视频不会改变评论归属。评论者需要使用 GitHub 登录。首次评论或回应时才会自动创建对应 Discussion。
+
+- `comments.js`：Giscus 仓库、分类配置与视频评论切换。
+- 仓库需要启用 Discussions，并授权 Giscus GitHub App。
+- 评论使用 Announcements 分类，在仓库 Discussions 中管理。
+- 本地 `file://` 打开页面时不加载评论，请通过已发布网站访问。
