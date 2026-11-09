@@ -36,12 +36,12 @@
 
 ## 评论与视频独立页
 
-- `video.html?id=v00`：独立视频页面，可分享给他人；`#comments` 直接定位评论。
-- 首页各栏目中的最近动态汇总整个视频库最近 3 条公开留言（包括回复），点击进入对应视频独立页。
-- 视频列表的评论气泡显示留言与回复总数，点击直接进入独立页评论区。
+- `index.html?video=v00&comments=1#classroom`：在原页面弹窗查看评论，不自动播放；旧的 `video.html?id=v00` 链接会自动跳回原页面。
+- 首页各栏目中的最近动态汇总整个视频库最近 3 条公开留言（包括回复），点击在原页面打开对应视频弹窗并定位评论，视频不自动播放。
+- 视频列表的评论气泡显示留言与回复总数，点击在原页面弹窗查看评论。
 - 页面从同站点的 `comment-data.json` 读取评论，无需数据库或前端密钥。支持手动刷新与每分钟读取已发布摘要；加载失败时保留已有内容并提示。
 - 阅读区直接展示文本与回复；写评论使用 Giscus 官方的 GitHub 登录和编辑器，通过 `giscus-compose.css` 保留编辑器、隐藏重复阅读区。
-- 写评论入口固定在弹窗或独立页底部，展开后可以登录、编辑和提交；评论内容始终存储于 GitHub Discussions。
+- 真实评论输入框直接显示在弹窗底部，已登录时可直接编辑和提交；评论内容始终存储于 GitHub Discussions。
 
 ### 评论自动更新
 
@@ -54,3 +54,11 @@ GitHub Pages 的发布来源需要选择 **GitHub Actions**。`.github/workflows
 `scripts/build_comment_data.py` 在本地没有 Token 时，可以通过 Giscus 公开接口生成预览摘要；浏览器本身不会跨域调用该接口。评论摘要中的每条讨论最多保留每个主评论最近 100 条回复，完整回复可通过“查看原文 / 回复”访问 GitHub。
 
 运行检查：`python3 -m unittest discover -s tests -p 'test_*.py'` 与 `node tests/comments.test.cjs`。
+
+### 评论隔离与自动同步
+
+每条视频使用全新的 Giscus iframe，视频切换／弹窗关闭时立即销毁旧实例；不通过 `setConfig.term` 复用编辑器。只接受当前 iframe 的消息，避免旧视频的异步消息和创建讨论缓存串入新视频。
+
+提交后检测当前讨论计数变化，自动每 3 秒读取已发布的评论摘要，最多跟踪 6 分钟；平时每分钟更新。由于摘要仍通过 GitHub Actions 发布，新评论展示会有构建部署延迟，无需手工刷新。评论与动态优先显示 GitHub Profile Name，未设置时回退到用户名。
+
+Giscus iframe 的 URL、会话保存与消息处理遵循 [Giscus 官方 client.ts](https://github.com/giscus/giscus/blob/main/client.ts) 的嵌入协议；会话仅发送至 giscus.app，不写入仓库或评论摘要。

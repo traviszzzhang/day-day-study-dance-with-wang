@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-09T14:44:37.855723+00:00",
+  "generatedAt": "2026-11-09T15:06:48.549781+00:00",
   "videos": {
     "v00": {
       "count": 1,
@@ -21,7 +21,8 @@
           "author": {
             "avatarUrl": "https://avatars.githubusercontent.com/u/354367681?v=4",
             "login": "traviszzzhang",
-            "url": "https://github.com/traviszzzhang"
+            "url": "https://github.com/traviszzzhang",
+            "name": "TraviS"
           },
           "replyCount": 0,
           "reactions": {
@@ -64,8 +65,122 @@
       "discussionURL": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/1"
     },
     "v01": {
-      "count": 0,
-      "parents": []
+      "count": 2,
+      "parents": [
+        {
+          "id": "DC_kwDOVoMm084BKXYj",
+          "upvoteCount": 1,
+          "viewerHasUpvoted": false,
+          "viewerCanUpvote": false,
+          "viewerDidAuthor": false,
+          "createdAt": "2026-11-09T14:56:35Z",
+          "url": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/2#discussioncomment-19494435",
+          "authorAssociation": "OWNER",
+          "lastEditedAt": null,
+          "deletedAt": null,
+          "isMinimized": false,
+          "bodyHTML": "<p dir=\"auto\">梦的开始！！！</p>",
+          "author": {
+            "avatarUrl": "https://avatars.githubusercontent.com/u/354367681?v=4",
+            "login": "traviszzzhang",
+            "url": "https://github.com/traviszzzhang",
+            "name": "TraviS"
+          },
+          "replyCount": 0,
+          "reactions": {
+            "THUMBS_UP": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "THUMBS_DOWN": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "LAUGH": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HOORAY": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "CONFUSED": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HEART": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "ROCKET": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "EYES": {
+              "count": 0,
+              "viewerHasReacted": false
+            }
+          },
+          "replies": []
+        },
+        {
+          "id": "DC_kwDOVoMm084BKXZt",
+          "upvoteCount": 1,
+          "viewerHasUpvoted": false,
+          "viewerCanUpvote": false,
+          "viewerDidAuthor": false,
+          "createdAt": "2026-11-09T14:59:33Z",
+          "url": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/2#discussioncomment-19494509",
+          "authorAssociation": "OWNER",
+          "lastEditedAt": null,
+          "deletedAt": null,
+          "isMinimized": false,
+          "bodyHTML": "<p dir=\"auto\">王炸！</p>",
+          "author": {
+            "avatarUrl": "https://avatars.githubusercontent.com/u/354367681?v=4",
+            "login": "traviszzzhang",
+            "url": "https://github.com/traviszzzhang",
+            "name": "TraviS"
+          },
+          "replyCount": 0,
+          "reactions": {
+            "THUMBS_UP": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "THUMBS_DOWN": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "LAUGH": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HOORAY": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "CONFUSED": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HEART": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "ROCKET": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "EYES": {
+              "count": 0,
+              "viewerHasReacted": false
+            }
+          },
+          "replies": []
+        }
+      ],
+      "discussionURL": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/2"
     },
     "v02": {
       "count": 0,
@@ -184,8 +299,66 @@
       "parents": []
     },
     "v31": {
-      "count": 0,
-      "parents": []
+      "count": 1,
+      "parents": [
+        {
+          "id": "DC_kwDOVoMm084BKXZa",
+          "upvoteCount": 1,
+          "viewerHasUpvoted": false,
+          "viewerCanUpvote": false,
+          "viewerDidAuthor": false,
+          "createdAt": "2026-11-09T14:59:02Z",
+          "url": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/3#discussioncomment-19494490",
+          "authorAssociation": "OWNER",
+          "lastEditedAt": null,
+          "deletedAt": null,
+          "isMinimized": false,
+          "bodyHTML": "<p dir=\"auto\">梦开始的地方！</p>",
+          "author": {
+            "avatarUrl": "https://avatars.githubusercontent.com/u/354367681?v=4",
+            "login": "traviszzzhang",
+            "url": "https://github.com/traviszzzhang",
+            "name": "TraviS"
+          },
+          "replyCount": 0,
+          "reactions": {
+            "THUMBS_UP": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "THUMBS_DOWN": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "LAUGH": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HOORAY": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "CONFUSED": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "HEART": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "ROCKET": {
+              "count": 0,
+              "viewerHasReacted": false
+            },
+            "EYES": {
+              "count": 0,
+              "viewerHasReacted": false
+            }
+          },
+          "replies": []
+        }
+      ],
+      "discussionURL": "https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/3"
     }
   }
 }

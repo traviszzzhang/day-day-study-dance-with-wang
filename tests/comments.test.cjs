@@ -1,15 +1,15 @@
 const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
 function fixture(snapshot){
- const nodes=new Map(),listeners={},badges=[];
- function element(){return {textContent:'',innerHTML:'',hidden:false,children:[],attrs:{},dataset:{},events:{},addEventListener(t,f){this.events[t]=f},setAttribute(k,v){this.attrs[k]=v},querySelector(){return this.frame||null},appendChild(n){this.children.push(n)},replaceChildren(){this.children=[]}}}
+ const nodes=new Map(),listeners={},badges=[],timers=[];
+ function element(){return {textContent:'',innerHTML:'',hidden:false,children:[],attrs:{},dataset:{},events:{},style:{},contentWindow:{},remove(){this.removed=true},addEventListener(t,f){this.events[t]=f},setAttribute(k,v){this.attrs[k]=v},querySelector(){return this.frame||null},appendChild(n){this.children.push(n)},replaceChildren(){this.children=[]}}}
  function node(id){if(!nodes.has(id))nodes.set(id,element());return nodes.get(id)}
  for(const id of ['v00','v01','v02','v03']){const e=element(),count=element();e.dataset.commentsFor=id;e.querySelector=()=>count;badges.push(e)}
  const videos=['v00','v01','v02','v03'].map((id,i)=>({id,title:`Dance ${i}`}));let fetched=[];
- const context=vm.createContext({document:{baseURI:'https://example.com/site/index.html',hidden:false,getElementById:node,querySelectorAll:()=>badges,createElement(tag){const el=element();if(tag==='template')el.content={get textContent(){return el.innerHTML.replace(/<[^>]*>/g,'').replaceAll('&lt;','<').replaceAll('&gt;','>')}};return el}},window:{daydayLibrary:{getVideos:()=>videos},addEventListener:(name,fn)=>listeners[name]=fn,dispatchEvent(){}},location:{protocol:'https:'},URL,URLSearchParams,AbortController,CustomEvent:class{},MutationObserver:class{observe(){}disconnect(){}},setTimeout:()=>1,clearTimeout(){},setInterval(){},fetch:async url=>{fetched.push(url);return{ok:true,json:async()=>snapshot}}});
+ const context=vm.createContext({document:{baseURI:'https://example.com/site/index.html',hidden:false,getElementById:node,querySelectorAll:()=>badges,createElement(tag){const el=element();if(tag==='template')el.content={get textContent(){return el.innerHTML.replace(/<[^>]*>/g,'').replaceAll('&lt;','<').replaceAll('&gt;','>')}};return el}},window:{daydayLibrary:{getVideos:()=>videos},addEventListener:(name,fn)=>listeners[name]=fn,dispatchEvent(){}},location:{protocol:'https:',href:'https://example.com/site/index.html?video=v00'},history:{replaceState(){}},localStorage:{getItem:()=>null,setItem(){},removeItem(){}},URL,URLSearchParams,AbortController,CustomEvent:class{},MutationObserver:class{observe(){}disconnect(){}},setTimeout:(fn,delay)=>{timers.push({fn,delay});return timers.length},clearTimeout(){},setInterval(){},fetch:async url=>{fetched.push(url);return{ok:true,json:async()=>snapshot}}});
  vm.runInContext(fs.readFileSync('comments.js','utf8'),context);
- return{context,node,badges,videos,fetched};
+ return{context,node,badges,videos,fetched,listeners,timers};
 }
-const c=(id,date,body,replies=[])=>({id,author:{login:'dancer'},createdAt:date,bodyHTML:body,url:'https://github.com/owner/repo/discussions/1',replies,isMinimized:false});
+const c=(id,date,body,replies=[])=>({id,author:{login:'dancer',name:'Dance Friend'},createdAt:date,bodyHTML:body,url:'https://github.com/owner/repo/discussions/1',replies,isMinimized:false});
 (async()=>{
  const snapshot={version:1,generatedAt:'2026-01-05T00:00:00Z',videos:{
  v00:{count:2,parents:[c('old','2026-01-01T00:00:00Z','<p>Old parent</p>',[c('reply','2026-01-04T00:00:00Z','<p>Latest reply</p>')])]},
@@ -19,10 +19,21 @@ const c=(id,date,body,replies=[])=>({id,author:{login:'dancer'},createdAt:date,b
  }};
  const f=fixture(snapshot);await new Promise(setImmediate);
  assert.equal(f.fetched.length,1);assert(f.fetched[0].includes('/site/comment-data.json'));
- const activity=f.node('recentComments').children;assert.equal(activity.length,3);assert.deepEqual(activity.map(a=>a.href),['video.html?id=v03#comments','video.html?id=v00#comments','video.html?id=v01#comments']);assert(!activity[0].innerHTML.includes('<script>'));assert.equal(f.badges[0].querySelector().textContent,'2');
+ const activity=f.node('recentComments').children;assert.equal(activity.length,3);assert.deepEqual(activity.map(a=>a.href),['index.html?video=v03&comments=1#classroom','index.html?video=v00&comments=1#classroom','index.html?video=v01&comments=1#classroom']);assert(!activity[0].innerHTML.includes('<script>'));assert.equal(f.badges[0].querySelector().textContent,'2');
  f.context.window.daydayComments.open(f.videos[0]);await new Promise(setImmediate);assert(f.node('videoCommentList').innerHTML.includes('Latest reply'));assert(!f.node('videoCommentList').innerHTML.includes('Different video'));
  f.context.window.daydayComments.open(f.videos[1]);await new Promise(setImmediate);assert(f.node('videoCommentList').innerHTML.includes('Different video'));assert(!f.node('videoCommentList').innerHTML.includes('Old parent'));
- f.node('composerBody').hidden=true;f.node('toggleComposer').events.click();const script=f.node('giscusMount').children[0];assert.equal(script.attrs['data-term'],'dayday-video-v01');assert.equal(script.attrs['data-input-position'],'bottom');assert(script.attrs['data-theme'].includes('giscus-compose.css'));
- f.node('composerCollapse').events.click();assert.equal(f.node('composerBody').hidden,true);
- console.log('Passed: global newest three include replies, safe text, snapshot-only requests, independent video comments, bubble counts, bottom composer.');
+ // Each video owns a fresh immutable iframe; no setConfig retargeting is used.
+ const firstFrame=f.node('giscusMount').children[0];
+ assert.equal(new URL(firstFrame.src).searchParams.get('term'),'dayday-video-v01');
+ f.context.window.daydayComments.open(f.videos[0]);const secondFrame=f.node('giscusMount').children[0];
+ assert(firstFrame.removed);assert.equal(firstFrame.src,'about:blank');assert.equal(new URL(secondFrame.src).searchParams.get('term'),'dayday-video-v00');
+ f.listeners.message({origin:'https://giscus.app',source:firstFrame.contentWindow,data:{giscus:{discussion:{url:'https://github.com/a/b/discussions/3',totalCommentCount:999}}}});
+ assert(!f.node('videoCommentNotice').textContent.includes('正在自动同步'));
+ f.context.window.daydayComments.open(f.videos[1]);const current=f.node('giscusMount').children[0];
+ f.listeners.message({origin:'https://giscus.app',source:current.contentWindow,data:{giscus:{discussion:{url:'https://github.com/a/b/discussions/2',totalCommentCount:2,totalReplyCount:0}}}});
+ await new Promise(setImmediate);assert(f.timers.some(t=>t.delay===3000));assert(f.node('videoCommentNotice').textContent.includes('正在自动同步'));
+ snapshot.videos.v01={count:2,parents:[...snapshot.videos.v01.parents,c('submitted','2026-01-07T00:00:00Z','<p>Automatically refreshed</p>')]};
+ await f.timers.findLast(t=>t.delay===3000).fn();await new Promise(setImmediate);assert(f.node('videoCommentList').innerHTML.includes('Automatically refreshed'));assert(f.node('videoCommentList').innerHTML.includes('Dance Friend'));
+ f.context.window.daydayComments.close();assert(current.removed);assert.equal(f.node('giscusMount').children.length,0);
+ console.log('Passed: global newest three include replies, safe text, snapshot-only requests, independent video comments, bubble counts, immutable editor isolation, late message rejection, automatic post-submit refresh, and display names.');
 })().catch(e=>{console.error(e);process.exitCode=1});

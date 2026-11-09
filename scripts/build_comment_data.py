@@ -1,6 +1,7 @@
 """Build public comment data; tokens are used only against api.github.com in Actions."""
 import concurrent.futures
 import hashlib
+from functools import lru_cache
 import json
 import os
 import re
@@ -14,7 +15,7 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parent.parent
 REPO = 'traviszzzhang/day-day-study-dance-with-wang'
 VIDEOS = json.loads((ROOT / 'video-library.json').read_text())
-FIELDS = 'id author { login } createdAt url isMinimized deletedAt bodyHTML'
+FIELDS = 'id author { login ... on User { name } ... on Organization { name } } createdAt url isMinimized deletedAt bodyHTML'
 COMMENTS = f'''comments(first:50,after:$after) {{ totalCount pageInfo {{ hasNextPage endCursor }} nodes {{ {FIELDS} replies(last:100) {{ totalCount nodes {{ {FIELDS} }} }} }} }}'''
 
 
@@ -94,6 +95,25 @@ def github_data(token):
     return result
 
 
+@lru_cache(maxsize=1000)
+def public_name(login):
+    if not login or not re.fullmatch(r'[A-Za-z0-9-]+', login):
+        return None
+    try:
+        return request_json('https://api.github.com/users/' + login).get('name')
+    except RuntimeError:
+        return None
+
+
+def enrich_names(parents):
+    for parent in parents:
+        for comment in [parent, *parent.get('replies', [])]:
+            author = comment.get('author')
+            if author:
+                author['name'] = public_name(author.get('login'))
+    return parents
+
+
 def public_video(video):
     """Bootstrap locally through Giscus without using or storing a token."""
     after, parents, total, replies, discussion_url = None, [], 0, 0, None
@@ -116,7 +136,7 @@ def public_video(video):
         after = d['pageInfo']['endCursor']
         if not after:
             raise RuntimeError('Comment pagination cursor missing')
-    return video['id'], {'count': total + replies, 'parents': parents, 'discussionURL': discussion_url}
+    return video['id'], {'count': total + replies, 'parents': enrich_names(parents), 'discussionURL': discussion_url}
 
 
 def main():
