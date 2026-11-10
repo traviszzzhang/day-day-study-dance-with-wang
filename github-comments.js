@@ -41,6 +41,7 @@
       return {login,name:await names.get(login)};
     }
     async function comments(thread) {
+      if(thread.comments===0)return {count:0,parents:[],discussionURL:thread.html_url,number:thread.number};
       const rows=(await list(`discussions/${thread.number}/comments`)).filter(c=>!c.deleted_at&&!c.is_minimized),nodes=new Map();
       for(const row of rows)nodes.set(String(row.id),{id:row.node_id||String(row.id),author:await author(row.user),createdAt:row.created_at,url:row.html_url,bodyHTML:row.body_html||`<p>${escape(row.body_text??row.body??'')}</p>`,bodyText:row.body_text??row.body??null,deletedAt:null,isMinimized:false,isReply:row.parent_id!=null,replies:[]});
       const parents=[];

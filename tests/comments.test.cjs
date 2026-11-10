@@ -7,7 +7,7 @@ function fixture(snapshot){
  const videos=['v00','v01','v02','v03'].map((id,i)=>({id,title:`Dance ${i}`}));let fetched=[];
  const context=vm.createContext({document:{baseURI:'https://example.com/site/index.html',hidden:false,getElementById:node,querySelectorAll:()=>badges,createElement(tag){const el=element();if(tag==='template')el.content={get textContent(){return el.innerHTML.replace(/<[^>]*>/g,'').replaceAll('&lt;','<').replaceAll('&gt;','>')}};return el}},window:{DaydayCommentSource:{create(options){notify=options.onUpdate;return source}},daydayLibrary:{getVideos:()=>videos},addEventListener:(name,fn)=>listeners[name]=fn,dispatchEvent(){}},location:{protocol:'https:',href:'https://example.com/site/index.html?video=v00'},history:{replaceState(){}},localStorage:{getItem:()=>null,setItem(){},removeItem(){}},URL,URLSearchParams,AbortController,CustomEvent:class{},MutationObserver:class{observe(){}disconnect(){}},setTimeout:(fn,delay)=>{timers.push({fn,delay});return timers.length},clearTimeout(){},setInterval(){},fetch:async url=>{fetched.push(url);return{ok:true,json:async()=>snapshot}}});
  vm.runInContext(fs.readFileSync('comments.js','utf8'),context);
- return{context,node,badges,videos,fetched,listeners,timers,sourceCalls};
+ return{context,node,badges,videos,fetched,listeners,timers,sourceCalls,source};
 }
 const c=(id,date,body,replies=[])=>({id,author:{login:'dancer',name:'Dance Friend'},createdAt:date,bodyHTML:body,url:'https://github.com/owner/repo/discussions/1',replies,isMinimized:false});
 (async()=>{
@@ -36,5 +36,12 @@ const c=(id,date,body,replies=[])=>({id,author:{login:'dancer',name:'Dance Frien
  f.listeners.message({origin:'https://giscus.app',source:current.contentWindow,data:{giscus:{discussion:{url:'https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/2',totalCommentCount:2,totalReplyCount:0}}}});
  await new Promise(setImmediate);assert.equal(f.sourceCalls.filter(x=>x==='video:v01').length,1);assert(!f.timers.some(t=>t.delay===3000));assert(f.node('videoCommentList').innerHTML.includes('Automatically refreshed'));assert(f.node('videoCommentList').innerHTML.includes('Dance Friend'));
  f.context.window.daydayComments.close();assert(current.removed);assert.equal(f.node('giscusMount').children.length,0);
+ const degraded=fixture(snapshot);await new Promise(setImmediate);degraded.source.error='GitHub 读取次数已达上限';
+ degraded.context.window.daydayComments.open(degraded.videos[0]);const fallback=degraded.node('nativeComments').children[0];
+ assert(fallback);assert.equal(new URL(fallback.src).origin,'https://giscus.app');assert.equal(new URL(fallback.src).searchParams.get('term'),'dayday-video-v00');assert(degraded.node('videoCommentList').hidden);assert(!degraded.node('nativeComments').hidden);
+ const before=degraded.sourceCalls.length;degraded.node('refreshVideoComments').events.click();assert.equal(degraded.sourceCalls.length,before,'refreshing a limited video must not reuse anonymous REST');assert(fallback.removed);
+ const refreshed=degraded.node('nativeComments').children[0];degraded.listeners.message({origin:'https://giscus.app',source:refreshed.contentWindow,data:{giscus:{discussion:{totalCommentCount:5,totalReplyCount:1,url:'https://github.com/traviszzzhang/day-day-study-dance-with-wang/discussions/1'}}}});assert.equal(degraded.node('videoCommentCount').textContent,'6 条');assert.equal(degraded.badges[0].querySelector().textContent,'6');
+ degraded.context.window.daydayComments.open(degraded.videos[1]);assert(refreshed.removed);assert.equal(new URL(degraded.node('nativeComments').children[0].src).searchParams.get('term'),'dayday-video-v01');
+ degraded.context.window.daydayComments.close();assert.equal(degraded.node('nativeComments').children.length,0);
  console.log('Passed: global newest three include replies, safe text, page-load-only REST source, independent video comments, bubble counts, immutable editor isolation, late message rejection, automatic post-submit refresh, and display names.');
 })().catch(e=>{console.error(e);process.exitCode=1});

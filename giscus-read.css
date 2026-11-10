@@ -1,0 +1,5 @@
+@import url('https://giscus.app/themes/transparent_dark.css');
+/* Read-only fallback: Giscus reads Discussions using its own hosted service. */
+.gsc-reactions,.gsc-comment-box,.gsc-reply-box{display:none!important}
+.gsc-main,.gsc-comments{margin:0!important;gap:0!important}
+.gsc-header{margin-top:0!important}

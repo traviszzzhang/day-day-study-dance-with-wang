@@ -7,7 +7,7 @@ output = root / '_site'
 if output.exists():
     shutil.rmtree(output)
 output.mkdir()
-for name in ['index.html', 'video.html', 'video.js', 'video-data.js', 'comments.js', 'github-comments.js', 'comments-ui.css', 'giscus-compose.css', '.nojekyll']:
+for name in ['index.html', 'video.html', 'video.js', 'video-data.js', 'comments.js', 'github-comments.js', 'comments-ui.css', 'giscus-compose.css', 'giscus-read.css', '.nojekyll']:
     shutil.copy2(root / name, output / name)
 for name in ['posters', 'teachers']:
     shutil.copytree(root / name, output / name, dirs_exist_ok=True)

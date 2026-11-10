@@ -51,3 +51,9 @@ python3 scripts/package_site.py
 ```
 
 Giscus iframe 的 URL、会话保存与消息处理遵循 [官方 client.ts](https://github.com/giscus/giscus/blob/main/client.ts) 的嵌入协议。会话仅发送至 giscus.app，不写入仓库。
+
+## 匿名读取被限流时
+
+全站动态仍使用 GitHub 匿名 REST 接口，受每个 IP 每小时 60 次限制。空讨论不会再单独请求评论。若动态读取失败或限流，单视频阅读区会切换到独立的 Giscus 原生只读 iframe，通过 Giscus 托管服务读取，而不是继续依赖已限流的浏览器 REST 请求。刷新评论会刷新该 iframe，提交后也会同步刷新阅读区；底部编辑器和视频隔离逻辑保持不变。
+
+正常读取时保留本站的 Name 展示和评论布局；兜底模式采用 Giscus 原生显示（包括其用户名格式）。全站动态不可用会明确提示，不冒充零评论。稳定的全站高频动态仍需要带缓存的认证读取服务，不能靠纯前端消除匿名限额。
