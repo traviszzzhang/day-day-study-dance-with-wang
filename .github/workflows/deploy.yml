@@ -1,17 +1,12 @@
-name: Publish website and comment activity
+name: Publish website
 
 on:
   push:
     branches: [main]
-  discussion:
-    types: [created, edited, deleted]
-  discussion_comment:
-    types: [created, edited, deleted]
   workflow_dispatch:
 
 permissions:
   contents: read
-  discussions: read
   pages: write
   id-token: write
 
@@ -34,12 +29,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate comment data builder
-        run: python -m unittest discover -s tests -p 'test_*.py'
-      - name: Read public comments from GitHub Discussions
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/build_comment_data.py
+      - name: Test direct GitHub comment reading
+        run: node tests/github-comments.test.cjs && node tests/comments.test.cjs
       - name: Package website
         run: python scripts/package_site.py
       - name: Configure Pages

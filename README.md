@@ -25,40 +25,29 @@
 
 更新视频资料时，请同步修改 `video-data.js`、`video-library.json` 与 `video-labels.json`。页面不会从浏览器修改服务器文件，无需后端或构建步骤。
 
-## 视频评论
+## 评论与最近动态
 
-播放器下方使用 Giscus，每个视频按固定编号映射到独立的 GitHub Discussion（`dayday-video-vXX`），重命名视频不会改变评论归属。评论者需要使用 GitHub 登录。首次评论或回应时才会自动创建对应 Discussion。
+- Giscus 负责 GitHub 登录和提交，评论保存在仓库 Discussions 的 Announcements 分类。
+- `github-comments.js` 在打开／刷新网页时，直接读取 GitHub 公开 REST 接口，不使用数据库、Token 或构建快照。
+- 通过 `dayday-video-vXX` 或原始严格匹配 SHA-1 识别视频讨论，分页读取评论，并按 `parent_id` 整理回复。
+- 最近动态汇总所有视频最近 3 条留言（含回复）。删除评论或讨论后，下次读取会替换旧列表和评论数量。
+- 打开视频复用本次页面加载的数据，不做定时轮询。自己提交评论后，只补读受影响视频的数据；页面上的刷新按钮也可主动重新读取。
+- 评论者优先显示 GitHub Profile Name；未设置或姓名读取失败时回退到用户名。同一账号的姓名只在当前页面内存中读取一次。
+- GitHub 匿名 REST 接口每个 IP 每小时 60 次；超过额度会显示可重试时间，不伪造零评论。页面不保存 GitHub 私密访问令牌。
+- 点击播放、评论气泡或动态均使用原页面弹窗；点击评论和动态时不自动播放。旧 `video.html?id=v00` 链接仍会跳回原页面。
+- 底部直接展示 Giscus 真实输入框，已登录时可以直接输入并提交。每次切换视频／关闭弹窗都会销毁旧 iframe，防止串评论。
+- 本地 `file://` 预览不连接评论接口，请通过网站或本地 HTTP 服务访问。
 
-- `comments.js`：Giscus 仓库、分类配置与视频评论切换。
-- 仓库需要启用 Discussions，并授权 Giscus GitHub App。
-- 评论使用 Announcements 分类，在仓库 Discussions 中管理。
-- 本地 `file://` 打开页面时不加载评论，请通过已发布网站访问。
+## 发布与检查
 
-## 评论与视频独立页
+GitHub Pages 的来源选择 **GitHub Actions**。`.github/workflows/deploy.yml` 只在推送 main 或手动运行时发布页面代码，评论新增、修改和删除不再触发发版。
 
-- `index.html?video=v00&comments=1#classroom`：在原页面弹窗查看评论，不自动播放；旧的 `video.html?id=v00` 链接会自动跳回原页面。
-- 首页各栏目中的最近动态汇总整个视频库最近 3 条公开留言（包括回复），点击在原页面打开对应视频弹窗并定位评论，视频不自动播放。
-- 视频列表的评论气泡显示留言与回复总数，点击在原页面弹窗查看评论。
-- 页面从同站点的 `comment-data.json` 读取评论，无需数据库或前端密钥。支持手动刷新与每分钟读取已发布摘要；加载失败时保留已有内容并提示。
-- 阅读区直接展示文本与回复；写评论使用 Giscus 官方的 GitHub 登录和编辑器，通过 `giscus-compose.css` 保留编辑器、隐藏重复阅读区。
-- 真实评论输入框直接显示在弹窗底部，已登录时可直接编辑和提交；评论内容始终存储于 GitHub Discussions。
+检查命令：
 
-### 评论自动更新
+```sh
+node tests/github-comments.test.cjs
+node tests/comments.test.cjs
+python3 scripts/package_site.py
+```
 
-GitHub Pages 的发布来源需要选择 **GitHub Actions**。`.github/workflows/deploy.yml` 会在推送、Discussion 或评论的新增／编辑／删除事件发生时运行：
-
-1. 使用 GitHub Actions 自带的临时 `GITHUB_TOKEN`，通过 GitHub GraphQL 读取公开讨论；不需要手工创建 Token。
-2. 按视频固定编号匹配讨论，生成 `comment-data.json`。读取失败时会停止发布，避免把真实评论覆盖为空数据。
-3. 打包并发布页面与最新摘要，评论变化通常需要等待一次构建和部署。
-
-`scripts/build_comment_data.py` 在本地没有 Token 时，可以通过 Giscus 公开接口生成预览摘要；浏览器本身不会跨域调用该接口。评论摘要中的每条讨论最多保留每个主评论最近 100 条回复，完整回复可通过“查看原文 / 回复”访问 GitHub。
-
-运行检查：`python3 -m unittest discover -s tests -p 'test_*.py'` 与 `node tests/comments.test.cjs`。
-
-### 评论隔离与自动同步
-
-每条视频使用全新的 Giscus iframe，视频切换／弹窗关闭时立即销毁旧实例；不通过 `setConfig.term` 复用编辑器。只接受当前 iframe 的消息，避免旧视频的异步消息和创建讨论缓存串入新视频。
-
-提交后检测当前讨论计数变化，自动每 3 秒读取已发布的评论摘要，最多跟踪 6 分钟；平时每分钟更新。由于摘要仍通过 GitHub Actions 发布，新评论展示会有构建部署延迟，无需手工刷新。评论与动态优先显示 GitHub Profile Name，未设置时回退到用户名。
-
-Giscus iframe 的 URL、会话保存与消息处理遵循 [Giscus 官方 client.ts](https://github.com/giscus/giscus/blob/main/client.ts) 的嵌入协议；会话仅发送至 giscus.app，不写入仓库或评论摘要。
+Giscus iframe 的 URL、会话保存与消息处理遵循 [官方 client.ts](https://github.com/giscus/giscus/blob/main/client.ts) 的嵌入协议。会话仅发送至 giscus.app，不写入仓库。

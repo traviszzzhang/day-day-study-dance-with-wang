@@ -4,8 +4,10 @@ import shutil
 
 root = Path(__file__).resolve().parent.parent
 output = root / '_site'
-output.mkdir(exist_ok=True)
-for name in ['index.html', 'video.html', 'video.js', 'video-data.js', 'comments.js', 'comments-ui.css', 'giscus-compose.css', 'comment-data.json', '.nojekyll']:
+if output.exists():
+    shutil.rmtree(output)
+output.mkdir()
+for name in ['index.html', 'video.html', 'video.js', 'video-data.js', 'comments.js', 'github-comments.js', 'comments-ui.css', 'giscus-compose.css', '.nojekyll']:
     shutil.copy2(root / name, output / name)
 for name in ['posters', 'teachers']:
     shutil.copytree(root / name, output / name, dirs_exist_ok=True)
